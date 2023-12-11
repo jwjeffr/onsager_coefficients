@@ -1,4 +1,4 @@
 Onsager coefficients from molecular dynamics run
 ################################################
 
-TODO add stuff
+TODO formulas and description of calculation
