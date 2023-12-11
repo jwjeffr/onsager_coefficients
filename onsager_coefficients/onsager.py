@@ -4,7 +4,7 @@ import numpy as np
 from numpy.typing import ArrayLike
 import ovito
 
-from modifier import particle_reduction_modifier
+from .modifier import particle_reduction_modifier
 
 
 # modifier for getting total displacement of each type
