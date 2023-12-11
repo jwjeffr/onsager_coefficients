@@ -15,17 +15,19 @@ def main():
     # access number of types for easy iteration
     num_types = matrix.num_types
 
+    type_map = {0: 'Fe', 1: 'Ni', 2: 'Cr'}
+
     # plot time series <R_i(t)\cdot R_j(t)>
     for i in range(num_types):
         for j in range(i, num_types):
-            plt.plot(matrix.time, matrix.time_series[i, j], label=f'{i}{j}')
+            plt.plot(matrix.time / 1e3, matrix.time_series[i, j], label=f'{type_map[i]}{type_map[j]}')
 
     # print out matrix elements
     print(matrix[...])
 
-    plt.legend(title='ij')
-    plt.ylabel(r'$ij$ Onsager coefficient $L_{ij}$ ($\AA^2$/ps)')
-    plt.ylabel(r'time $t$ (ps)')
+    plt.legend(title=r'$\alpha\beta$')
+    plt.ylabel(r'$\left\langle \mathbf{R}_\alpha(t)\cdot\mathbf{R}_\beta(t)\right\rangle$ ($\AA^2$)')
+    plt.xlabel(r'time $t$ (ns)')
     plt.grid()
     plt.savefig('square_displacement.svg', bbox_inches='tight')
 

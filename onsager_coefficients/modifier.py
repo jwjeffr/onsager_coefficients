@@ -2,19 +2,25 @@
 Submodule with an OVITO modifier that acts as a general particle property reduction
 """
 
-from typing import Callable
+from typing import Callable, Optional, Mapping
 
 from ovito.data import DataCollection
 import numpy as np
 from numpy.typing import ArrayLike
 
 
-def particle_reduction_modifier(particle_property: str, reducer: Callable[[ArrayLike], ArrayLike]) -> callable:
+def particle_reduction_modifier(
+        particle_property: str,
+        reducer: Callable[[ArrayLike], ArrayLike],
+        type_map: Optional[Mapping] = None
+) -> callable:
     """
     Wrapper function returning a particle reduction modifier
     :param particle_property: property to reduce
-    :param reducer: A function to perform the reduction operation, taking in a numpy array and outputting a numpy array
+    :param reducer: a function to perform the reduction operation, taking in a numpy array and outputting a numpy array
                     with lesser dimensionality
+    :param type_map: type map for storing per-type properties, if not provided then properties will be labeled with
+                     integers
     :return: a particle reduction modifier for a specific property and reduction operation
     """
 
@@ -33,6 +39,8 @@ def particle_reduction_modifier(particle_property: str, reducer: Callable[[Array
         # get per-type data and reduce it
         for type_ in set(types):
             data_to_reduce = per_particle_data[types == type_]
+            if type_map:
+                type_ = type_map[type_]
             data.attributes[f'Total displacement {type_:.0f}'] = reducer(data_to_reduce)
 
     return wrapper
