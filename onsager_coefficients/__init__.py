@@ -1,2 +1,2 @@
-import modifier
+from .modifier import particle_reduction_modifier, mean_square_displacement_modifier
 from .onsager import OnsagerMatrix, get_onsager_matrix
